@@ -63,10 +63,10 @@
     const inputs = document.querySelectorAll(".controls input");
 
     function handleUpdate(event) {
-      const suffix = event.target.dataset.sizing || '';
+      const suffix = this.dataset.sizing || '';
       
       document.documentElement.style
-        .setProperty(`--${event.target.name}`, `${event.target.value}${suffix}`);
+        .setProperty(`--${this.name}`, `${this.value}${suffix}`);
     }
 
     inputs.forEach(input => input.addEventListener('change', handleUpdate));
@@ -82,7 +82,13 @@
 
     questions:
       are css variables safe in terms of browser compatibility?
+        https://caniuse.com/css-variables looks safe -> ~95% 
+          (what percent can be considered safe?)
       are there any guidelines on (not) using `this`?
+        in case of event handlers, it looks like it depends
+        (event bubbling) as if there were an inner element then 
+        it might become the event.target so using this feels safer
+        in this case -> https://stackoverflow.com/a/21667010 
     */
   </script>
 
