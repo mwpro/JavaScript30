@@ -62,12 +62,61 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.05s; /* transition-timing-function */
+      transition-timing-function: cubic-bezier(0.13, 3.76, 0.58, 1);
+    }
+
+    .second-hand {
+      background: #cc0000;
+    }
+
+    .hour-hand {
+      width: 33%;
+      left: 17%;
     }
 
   </style>
 
   <script>
+    const secondHand = document.querySelector(".second-hand");
+    const minuteHand = document.querySelector(".min-hand");
+    const hourHand = document.querySelector(".hour-hand");
 
+    function setDate() {
+      const now = new Date();
+      const seconds = now.getSeconds();
+      const secondsDegrees = 90 + (seconds / 60) * 360;
+      secondHand.style.transitionProperty = (seconds == 0) ?  "none" : "all";
+      secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+
+      const minutes = now.getMinutes();
+      const minutesDegrees = 90 + (minutes / 60) * 360;      
+      minuteHand.style.transitionProperty = (minutes == 0) ?  "none" : "all";
+      minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
+
+      const hours = now.getHours();
+      const hoursDegrees = 90 + (hours / 12) * 360;
+      hourHand.style.transitionProperty = (hours == 0 || hours == 13) ?  "none" : "all";
+      hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+    }
+
+    setDate();
+    setInterval(setDate, 1000);
+
+    /* 
+    🐞 bugs:
+    * weird animation when any hands touches 12 o'clock
+      - if's
+    * hands styling
+      - fixed by css
+    * clock starts at 00:00:00
+      - call setDate at start
+
+    my takeaways:
+    - there's a lot of magic in css transform and transition
+    */
 
   </script>
 </body>
